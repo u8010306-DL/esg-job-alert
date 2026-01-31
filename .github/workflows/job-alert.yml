@@ -1,0 +1,19 @@
+name: ESG Job Alert
+
+on:
+  schedule:
+    - cron: '0 1 * * 3,6'  # 每週三、六 台灣時間 09:00 (UTC+8)
+  workflow_dispatch:
+
+jobs:
+  send-email:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run ESG job alert
+        run: python job_alert.py
+        env:
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+          APP_PASSWORD: ${{ secrets.APP_PASSWORD }}
